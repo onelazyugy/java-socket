@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 /**
  * A Simple Socket client that connects to our socket server
@@ -47,20 +48,32 @@ public class SocketClient {
     }
 
     public static void main(String arg[]){
-        //Creating a SocketClient object
-        SocketClient client = new SocketClient ("localhost",9991);
-        try {
-            //trying to establish connection to the server
-            client.connect();
-            //asking server for time
-            client.askForTime();
-            //waiting to read response from server
-            client.readResponse();
-            
-        } catch (UnknownHostException e) {
-            System.err.println("Host unknown. Cannot establish connection");
-        } catch (IOException e) {
-            System.err.println("Cannot establish connection. Server may not be up."+e.getMessage());
-        }
+    	Scanner scanner = new Scanner(System.in);
+    	System.out.println("1. start 2. quit");
+    	int cmd = scanner.nextInt();
+    	while(cmd != 2){
+    		System.out.println("1. command 2. quit");
+    		int num = scanner.nextInt();
+    		if(num == 1){
+    			//Creating a SocketClient object
+    			SocketClient client = new SocketClient ("localhost",9991);
+    			try {
+    				//trying to establish connection to the server
+    				client.connect();
+    				//asking server for time
+    				client.askForTime();
+    				//waiting to read response from server
+    				client.readResponse();
+    				
+    			} catch (UnknownHostException e) {
+    				System.err.println("Host unknown. Cannot establish connection");
+    			} catch (IOException e) {
+    				System.err.println("Cannot establish connection. Server may not be up."+e.getMessage());
+    			}    		
+    		} else {
+    			System.out.println("Exiting....");
+    			System.exit(0);
+    		}
+    	}
     }
 }
